@@ -10,6 +10,8 @@
         <a href="#environment">环境</a>
         <a href="#pricing">套餐</a>
         <a href="#reviews">口碑</a>
+        <a href="/customer">客户查询</a>
+        <a href="/staff">员工登录</a>
       </div>
       <a class="nav-cta" href="#booking">预约洗护</a>
     </nav>
@@ -304,6 +306,10 @@
             <label>
               联系电话
               <input name="phone" inputmode="tel" autocomplete="tel" placeholder="用于确认预约" required>
+            </label>
+            <label>
+              账号密码
+              <input name="password" type="password" autocomplete="current-password" placeholder="首次预约自动建号" minlength="6" required>
             </label>
             <label>
               宠物类型

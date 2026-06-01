@@ -102,10 +102,36 @@ export default function Home() {
       showEnvironmentSlide(environmentIndex + 1);
       restartEnvironmentTimer();
     };
-    const submitHandler = (event: SubmitEvent) => {
+    const submitHandler = async (event: SubmitEvent) => {
       event.preventDefault();
-      const owner = new FormData(bookingForm).get("owner") || "主人";
-      estimateOutput.textContent = `${owner}，预约信息已记录。我们会尽快联系你确认具体时间。`;
+      const formData = new FormData(bookingForm);
+      estimateOutput.textContent = "正在提交预约信息...";
+      try {
+        const response = await fetch("/api/customer/appointments", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            owner: formData.get("owner"),
+            phone: formData.get("phone"),
+            password: formData.get("password"),
+            petType: formData.get("petType"),
+            size: formData.get("size"),
+            plan: formData.get("plan"),
+            note: formData.get("note")
+          })
+        });
+        const result = await response.json();
+        if (!response.ok) {
+          estimateOutput.textContent = result.error || "预约提交失败，请稍后再试。";
+          return;
+        }
+        const owner = formData.get("owner") || "主人";
+        estimateOutput.textContent = `${owner}，预约已提交。你可以前往客户查询查看状态或修改预约。`;
+        bookingForm.reset();
+        updateEstimate();
+      } catch {
+        estimateOutput.textContent = "网络异常，预约提交失败。";
+      }
     };
 
     prevButton.addEventListener("click", prevHandler);
