@@ -5,8 +5,9 @@
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate",
-    "db:migrate": "prisma migrate deploy",
-    "db:dev": "prisma migrate dev"
+    "db:validate": "dotenv -e .env.local -- prisma validate",
+    "db:migrate": "dotenv -e .env.local -- prisma migrate deploy",
+    "db:dev": "dotenv -e .env.local -- prisma migrate dev"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",
@@ -22,6 +23,7 @@
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
+    "dotenv-cli": "^11.0.0",
     "prisma": "^6.19.3",
     "typescript": "latest"
   }
